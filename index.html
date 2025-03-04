@@ -94,6 +94,8 @@
         }
 
     </style>
+    <!-- <script src="coi-serviceworker.min.js"></script> -->
+
 </head>
 <body>
 
@@ -143,24 +145,147 @@
 
         const scriptUrl = "https://script.google.com/macros/s/AKfycbySgSmgOd9Ya6bi5m3Oq6HGgLsbvPGURmNYjXlF7yhebJm1ZXyPIFhe6F2rRFOlahpKgA/exec"; // Replace with your actual web app URL
 
-        const apiUrl = 'https://script.google.com/macros/s/AKfycbySgSmgOd9Ya6bi5m3Oq6HGgLsbvPGURmNYjXlF7yhebJm1ZXyPIFhe6F2rRFOlahpKgA/exec';
-        
-        fetch(apiUrl)
+
+        // var sheet_link = "https://docs.google.com/spreadsheets/d/1_21gmzpZYP9MUHuhJC1zQvANQIqMydaULhG1e-wLtsQ/gviz/tq?sheet=Messages_"
+
+        const sheetID = '1_21gmzpZYP9MUHuhJC1zQvANQIqMydaULhG1e-wLtsQ'; // The unique ID of your Google Sheet (found in the URL)
+        const sheetURL = `https://spreadsheets.google.com/tq?key=${sheetID}&tq=SELECT%20*%20LIMIT%2020&output=csv`; // This outputs the data in CSV format
+
+        https://corsproxy.io/?url=
+
+        fetch('https://corsproxy.io/?url='+ sheetURL)
           .then(response => {
-            console.log(response)
-            response.json()
-            })
-          .then(data => console.log(data))
-          .catch(error => console.error('Error:', error));
+            // console.log(data)
+            // console.log(response.json())
+            return response.text()
+          })  // Use .text() because we are dealing with CSV
+          .then(data => {
+            console.log(data)
+            console.log(typeof data)
+            const jsonPart = data.split("setResponse("[1])
 
-        // fetch(scriptUrl)
-          // .then(response => response.json())  // Convert the response to JSON
-          // .then(data => {
-          //     console.log("Fetched Data:", data);
-          //     // You can now use the fetched data to populate a div, table, etc.
-          // })
-          // .catch(error => console.error("Error fetching data:", error));
+            console.log(typeof jsonPart)
+            // let stringg = jsonPart.toString()
+            // console.log(stringg)
+            // console.log(JSON.parse(stringg))
+            // console.log(JSON.parse(jsonPart.toString()))
 
+            function matchDate(inputString) {
+                const dateRegex = /\b(\d{1,2}\/\d{1,2}\/\d{4})\b/;
+                const match = inputString.match(dateRegex);
+                return match ? match[0] : null;
+            }
+            function extractTime(inputString) {
+                const timeRegex = /\b\d{1,2}:\d{2}:\d{2}\b/;
+                const match = inputString.match(timeRegex);
+                return match ? match[0] : null;
+            }
+
+            function extractName(inputString) {
+                const nameRegex = /"v":"([^"]+)"/;
+                const match = inputString.match(nameRegex);
+                return match ? match[1] : null;
+            }
+
+            function extractLocation(inputString) {
+                const locationRegex = /"v":"[^"]+"\}\,\{"v":"([^"]+)"/;
+                const match = inputString.match(locationRegex);
+                return match ? match[1] : null;
+            }
+
+            function matchDateIndex(inputString) {
+                const dateRegex = /\b(\d{1,2}\/\d{1,2}\/\d{4})\b/;
+                const match = inputString.match(dateRegex);
+                return match ? { date: match[0], index: match.index } : null;
+            }
+
+            // return date, time, location, and name in obj
+            let granddaddy_parse = (x) => {
+                let return_obj = {
+                    date : '',
+                    time : '',
+                    name : '',
+                    location : ''
+                }
+                return return_obj
+            }
+
+
+            let format_data = (data_in) => {
+                let start_index = 21
+                let arr = []
+                for (let i = start_index; i < jsonPart.length; i++) {
+                    // console.log(i)
+                    // arr.push(data_in[i].substring(matchDateIndex(data_in[i])['index'], data_in[i].length))
+                    // console.log(data_in[i].substring(matchDateIndex(data_in[i])['index'], data_in[i].length))
+                    try {
+                        // console.log(jsonPart[i].substring(matchDateIndex(jsonPart[i])['index'], jsonPart[i].length))
+                        arr.push(jsonPart[i].substring(matchDateIndex(jsonPart[i])['index'], jsonPart[i].length))
+                    } catch {
+
+                    }
+                }
+                console.log(arr)
+                return arr
+            }
+
+
+            let prune_data = (data_in) => {
+                let arr = []
+                for (let i = 0; i < data_in.length; i++) {
+                    // get date
+                    let d = matchDate(data_in[i])
+                    // get time
+                    let t = extractTime(data_in[i])
+                    // get name
+                    let n = extractName(data_in[i])
+                    // get location
+                    let l = extractLocation(data_in[i])
+
+                    arr.push({
+                        date: d,
+                        time: t,
+                        name: n,
+                        location: l
+                    })
+
+                    // console.log('date : ' + d)
+                    // console.log('time : ' + t)
+                    // console.log('name : ' + n)
+                    // console.log('location : ' + l)
+                }
+                return arr
+            }
+
+
+            function pushDataToDiv(dataArray) {
+                const container = document.getElementById("dataContainer");
+                if (!container) {
+                    console.error("Element with id 'dataContainer' not found.");
+                    return;
+                }
+
+                container.innerHTML = ""; // Clear previous content
+
+                dataArray.forEach(item => {
+                    const div = document.createElement("div");
+                    div.textContent = item['date'] += ' - ' + item['time'] + ' ' + item['name'];
+                    container.appendChild(div);
+                });
+            }
+
+
+            let raw_data = format_data(jsonPart)
+            let pruned_data = prune_data(raw_data)
+            pushDataToDiv(pruned_data)
+            // console.log(pruned_data)
+
+
+
+          })
+          .catch(error => console.error('Error fetching Google Sheet:', error));
+
+          // let pull_data_from_sheet = () => {}
 
 		document.getElementById("submissionForm").addEventListener("submit", function(event) {
 
@@ -188,6 +313,8 @@
 			    .then(() => {
 			        document.getElementById("responseMessage").innerText = "Submission successful!";
 			        document.getElementById("submissionForm").reset();
+                    location.reload();
+
 			    })
 			    .catch(error => {
 			        document.getElementById("responseMessage").innerText = "Error submitting form.";
