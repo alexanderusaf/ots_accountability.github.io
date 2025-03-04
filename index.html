@@ -93,6 +93,24 @@
             text-align: left;
         }
 
+        .grid-container {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          grid-template-rows: repeat(5, auto);
+          gap: 10px;
+          width: 100%;
+          height: 600px;
+        }
+
+        .grid-item {
+          width: 100%;
+          height: 100%;
+          background-size: cover;
+          background-position: center;
+          border: 2px solid #ddd;
+        }
+
+        
     </style>
     <!-- <script src="coi-serviceworker.min.js"></script> -->
 
@@ -109,6 +127,25 @@
 	    	<input type="text" id="location" placeholder="Location" required>
             <button type="submit">Submit</button>
         </form>
+
+        <div class="grid-container">
+            <div class="grid-item" style="background-image: url('LASKO.jpg');"></div>
+            <div class="grid-item" style="background-image: url('A.HARRIS.jpg');"></div>
+            <div class="grid-item" style="background-image: url('BURNS.jpg');"></div>
+            <div class="grid-item" style="background-image: url('CARPENTER.jpg');"></div>
+            <div class="grid-item" style="background-image: url('HARP.jpg');"></div>
+            <div class="grid-item" style="background-image: url('HART.jpg');"></div>
+            <div class="grid-item" style="background-image: url('HEAD.jpg');"></div>
+            <div class="grid-item" style="background-image: url('HOAGLAND.jpg');"></div>
+            <div class="grid-item" style="background-image: url('LOPEZ-MEDINA.jpg');"></div>
+            <div class="grid-item" style="background-image: url('MULLEN-SCHWEITZER.jpg');"></div>
+            <div class="grid-item" style="background-image: url('SARGENT.jpg');"></div>
+            <div class="grid-item" style="background-image: url('SMITH.jpg');"></div>
+            <div class="grid-item" style="background-image: url('SONG.jpg');"></div>
+            <div class="grid-item" style="background-image: url('T.HARRIS.jpg');"></div>
+            <div class="grid-item" style="background-image: url('ZANOTTO.jpg');"></div>
+          </div>
+
         <p id="responseMessage"></p>
         <!-- <h2>Google Sheets Data</h2> -->
 	    <div id="dataContainer">Loading data...</div>
@@ -119,6 +156,27 @@
     	
     </div>
     <script>
+
+
+        const today = new Date();
+        const formattedDate = `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}`;
+
+
+        function isAfter730pm() {
+          const now = new Date();
+          const currentTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+          const targetTime = '19:30:00';
+          
+          return currentTime > targetTime;
+        }
+
+        console.log(formattedDate);
+        console.log('its after 730 : ' + isAfter730pm())
+        // const current_time = getCurrentTime()
+        // console.log(current_time);
+
+        // const evening_accountability_time = '20:00:00'
+
     	 const names = ["HARP", "MULLEN-SCHWEITZER", "HART", "SMITH", "ZANOTTO", "SONG", "BURNS", "SARGENT", "HOAGLAND", "A.HARRIS", "LOPEZ-MEDINA", "CARPENTER", "T.HARRIS", "HEAD", "LASKO"];
 
 	    // Reference to the <select> element
