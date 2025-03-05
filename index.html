@@ -108,6 +108,7 @@
           background-size: cover;
           background-position: center;
           border: 2px solid #ddd;
+          box-shadow:inset 0px 0px 0px 5px #f00;
         }
 
         
@@ -129,21 +130,21 @@
         </form>
 
         <div class="grid-container">
-            <div class="grid-item" style="background-image: url('LASKO.JPG');"></div>
-            <div class="grid-item" style="background-image: url('A.HARRIS.JPG');"></div>
-            <div class="grid-item" style="background-image: url('BURNS.JPG');"></div>
-            <div class="grid-item" style="background-image: url('CARPENTER.JPG');"></div>
-            <div class="grid-item" style="background-image: url('HARP.JPG');"></div>
-            <div class="grid-item" style="background-image: url('HART.JPG');"></div>
-            <div class="grid-item" style="background-image: url('HEAD.JPG');"></div>
-            <div class="grid-item" style="background-image: url('HOAGLAND.JPG');"></div>
-            <div class="grid-item" style="background-image: url('LOPEZ-MEDINA.JPG');"></div>
-            <div class="grid-item" style="background-image: url('MULLEN-SCHWEITZER.JPG');"></div>
-            <div class="grid-item" style="background-image: url('SARGENT.JPG');"></div>
-            <div class="grid-item" style="background-image: url('SMITH.JPG');"></div>
-            <div class="grid-item" style="background-image: url('SONG.JPG');"></div>
-            <div class="grid-item" style="background-image: url('T.HARRIS.JPG');"></div>
-            <div class="grid-item" style="background-image: url('ZANOTTO.JPG');"></div>
+            <div id="LASKO" class="grid-item" style="background-image: url('LASKO.JPG');"></div>
+            <div id="A.HARRIS" class="grid-item" style="background-image: url('A.HARRIS.JPG');"></div>
+            <div id="BURNS" class="grid-item" style="background-image: url('BURNS.JPG');"></div>
+            <div id="CARPENTER" class="grid-item" style="background-image: url('CARPENTER.JPG');"></div>
+            <div id="HARP" class="grid-item" style="background-image: url('HARP.JPG');"></div>
+            <div id="HART" class="grid-item" style="background-image: url('HART.JPG');"></div>
+            <div id="HEAD" class="grid-item" style="background-image: url('HEAD.JPG');"></div>
+            <div id="HOAGLAND" class="grid-item" style="background-image: url('HOAGLAND.JPG');"></div>
+            <div id="LOPEZ" class="grid-item" style="background-image: url('LOPEZ-MEDINA.JPG');"></div>
+            <div id="MULLEN" class="grid-item" style="background-image: url('MULLEN-SCHWEITZER.JPG');"></div>
+            <div id="SARGENT" class="grid-item" style="background-image: url('SARGENT.JPG');"></div>
+            <div id="SMITH" class="grid-item" style="background-image: url('SMITH.JPG');"></div>
+            <div id="SONG" class="grid-item" style="background-image: url('SONG.JPG');"></div>
+            <div id="T.HARRIS" class="grid-item" style="background-image: url('T.HARRIS.JPG');"></div>
+            <div id="ZANOTTO" class="grid-item" style="background-image: url('ZANOTTO.JPG');"></div>
           </div>
 
         <p id="responseMessage"></p>
@@ -157,6 +158,7 @@
     </div>
     <script>
 
+         
 
         const today = new Date();
         const formattedDate = `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}`;
@@ -170,14 +172,9 @@
           return currentTime > targetTime;
         }
 
-        console.log(formattedDate);
-        console.log('its after 730 : ' + isAfter730pm())
-        // const current_time = getCurrentTime()
-        // console.log(current_time);
-
-        // const evening_accountability_time = '20:00:00'
-
     	 const names = ["HARP", "MULLEN-SCHWEITZER", "HART", "SMITH", "ZANOTTO", "SONG", "BURNS", "SARGENT", "HOAGLAND", "A.HARRIS", "LOPEZ-MEDINA", "CARPENTER", "T.HARRIS", "HEAD", "LASKO"];
+
+        
 
 	    // Reference to the <select> element
 	    const nameDropdown = document.getElementById("name");
@@ -209,8 +206,9 @@
         const sheetID = '1_21gmzpZYP9MUHuhJC1zQvANQIqMydaULhG1e-wLtsQ'; // The unique ID of your Google Sheet (found in the URL)
         const sheetURL = `https://spreadsheets.google.com/tq?key=${sheetID}&tq=SELECT%20*%20LIMIT%2020&output=csv`; // This outputs the data in CSV format
 
-        https://corsproxy.io/?url=
-
+        // https://corsproxy.io/?url=
+        // https://corsproxy.io/?url=https://example.com
+        // fetch('https://proxy.cors.sh/'+ sheetURL)
         fetch('https://corsproxy.io/?url='+ sheetURL)
           .then(response => {
             // console.log(data)
@@ -218,11 +216,11 @@
             return response.text()
           })  // Use .text() because we are dealing with CSV
           .then(data => {
-            console.log(data)
-            console.log(typeof data)
+            // console.log(data)
+            // console.log(typeof data)
             const jsonPart = data.split("setResponse("[1])
 
-            console.log(typeof jsonPart)
+            // console.log(typeof jsonPart)
             // let stringg = jsonPart.toString()
             // console.log(stringg)
             // console.log(JSON.parse(stringg))
@@ -257,16 +255,7 @@
                 return match ? { date: match[0], index: match.index } : null;
             }
 
-            // return date, time, location, and name in obj
-            let granddaddy_parse = (x) => {
-                let return_obj = {
-                    date : '',
-                    time : '',
-                    name : '',
-                    location : ''
-                }
-                return return_obj
-            }
+            
 
 
             let format_data = (data_in) => {
@@ -283,7 +272,7 @@
 
                     }
                 }
-                console.log(arr)
+                // console.log(arr)
                 return arr
             }
 
@@ -292,26 +281,34 @@
                 let arr = []
                 for (let i = 0; i < data_in.length; i++) {
                     // get date
-                    let d = matchDate(data_in[i])
-                    // get time
+                 
+                    
+                    let day = matchDate(data_in[i]).substring(0,matchDate(data_in[i]).indexOf('2025')+4)
+                    console.log(day)
                     let t = extractTime(data_in[i])
                     // get name
                     let n = extractName(data_in[i])
                     // get location
                     let l = extractLocation(data_in[i])
 
+
+                    // console.log(d.indexOf('2025')+4)
+                    // console.log(d)
+
                     arr.push({
-                        date: d,
+                        day: day,
                         time: t,
                         name: n,
                         location: l
                     })
+                    // console.log(arr[i])
 
                     // console.log('date : ' + d)
                     // console.log('time : ' + t)
                     // console.log('name : ' + n)
                     // console.log('location : ' + l)
                 }
+                // console.log(arr)
                 return arr
             }
 
@@ -328,7 +325,9 @@
 
                 for (let i = dataArray.length-1; i > 0; i-- ) {
                     const div = document.createElement("div");
-                    div.textContent = dataArray[i]['date'] += ' - ' + dataArray[i]['time'] + ' ' + dataArray[i]['name'];
+                    let div_string = dataArray[i]['day'] + ' - ' + dataArray[i]['time'] + ' ' + dataArray[i]['name']
+                    div.textContent = div_string
+                    // div.textContent = dataArray[i]['date'] += ' - ' + dataArray[i]['time'] + ' ' + dataArray[i]['name'];
                     container.appendChild(div);
                 }
                 // dataArray.forEach(item => {
@@ -341,8 +340,47 @@
 
             let raw_data = format_data(jsonPart)
             let pruned_data = prune_data(raw_data)
-            pushDataToDiv(pruned_data)
-            // console.log(pruned_data)
+
+            let data_to_push = [...pruned_data]
+            pushDataToDiv(data_to_push)
+
+            if (true) {
+                // get sublist of entries that are entered today
+                let todays_entries = []
+                for (let i = 0; i < pruned_data.length; i++) {
+                    // if data entry matches today
+                    if (pruned_data[i]['day'] == formattedDate) {
+                        console.log(formattedDate + ' does match : ' + pruned_data[i]['day'])
+                        todays_entries.push(pruned_data[i])
+                    } else {
+                        console.log(formattedDate + ' does not match : ' + pruned_data[i]['day'])
+                    }
+                }
+                console.log('todays entries : ')
+                console.log(todays_entries)
+
+                // if (isAfter730pm()) {
+                if (true) {
+                    let flight_members_with_checkin = []
+                    for (let i = 0; i < todays_entries.length; i++) {
+                        if (!flight_members_with_checkin.includes(todays_entries[i]['name'])) {
+                            flight_members_with_checkin.push(todays_entries[i])
+                        }
+                    }
+                    console.log('flight members with checkin')
+                    console.log(flight_members_with_checkin)
+
+                    // update border from red to green if they have checkin
+                    for (let i = 0; i < flight_members_with_checkin.length; i++) {
+                        console.log('check')
+                        console.log(document.getElementById(flight_members_with_checkin[i]['name']))
+                        
+                        // document.getElementById(flight_members_with_checkin[i]['name']).style.border = "10px solid green"
+                        document.getElementById(flight_members_with_checkin[i]['name']).style.boxShadow = "inset 0px 0px 0px 5px #208637"
+                        // box-shadow:inset 0px 0px 0px 5px #f00
+                    }
+                }
+            }
 
 
 
