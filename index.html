@@ -138,8 +138,8 @@
             <div id="HART" class="grid-item" style="background-image: url('HART-min.JPG');"></div>
             <div id="HEAD" class="grid-item" style="background-image: url('HEAD-min.JPG');"></div>
             <div id="HOAGLAND" class="grid-item" style="background-image: url('HOAGLAND-min.JPG');"></div>
-            <div id="LOPEZ" class="grid-item" style="background-image: url('LOPEZ-MEDINA-min.JPG');"></div>
-            <div id="MULLEN" class="grid-item" style="background-image: url('MULLEN-SCHWEITZER-min.JPG');"></div>
+            <div id="LOPEZ-MEDINA" class="grid-item" style="background-image: url('LOPEZ-MEDINA-min.JPG');"></div>
+            <div id="MULLEN-SCHWEITZER" class="grid-item" style="background-image: url('MULLEN-SCHWEITZER-min.JPG');"></div>
             <div id="SARGENT" class="grid-item" style="background-image: url('SARGENT-min.JPG');"></div>
             <div id="SMITH" class="grid-item" style="background-image: url('SMITH-min.JPG');"></div>
             <div id="SONG" class="grid-item" style="background-image: url('SONG-min.JPG');"></div>
@@ -372,7 +372,7 @@
 
                     // update border from red to green if they have checkin
                     for (let i = 0; i < flight_members_with_checkin.length; i++) {
-                        console.log('check')
+                        console.log('check : ' + flight_members_with_checkin[i]['name'])
                         console.log(document.getElementById(flight_members_with_checkin[i]['name']))
                         
                         // document.getElementById(flight_members_with_checkin[i]['name']).style.border = "10px solid green"
